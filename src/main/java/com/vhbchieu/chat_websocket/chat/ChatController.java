@@ -14,7 +14,6 @@ public class ChatController {
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")    //Gửi tin nhắn đến topic hay queue nào
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-        log.info("send: {}", chatMessage.toString());
         return chatMessage;
     }
 
@@ -28,7 +27,6 @@ public class ChatController {
     ) {
         //thêm UserName vào WebSocket
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-        log.info("send: {}", chatMessage.toString());
         return chatMessage;
     }
 }
