@@ -1,5 +1,6 @@
 package com.vhbchieu.chat_websocket.chat;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -7,11 +8,13 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@Slf4j
 public class ChatController {
 
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")    //Gửi tin nhắn đến topic hay queue nào
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+        log.info("send: {}", chatMessage.toString());
         return chatMessage;
     }
 
@@ -25,6 +28,7 @@ public class ChatController {
     ) {
         //thêm UserName vào WebSocket
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+        log.info("send: {}", chatMessage.toString());
         return chatMessage;
     }
 }
